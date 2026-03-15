@@ -26,6 +26,16 @@ const initialForm = (tracks) => ({
   p10Driver: '',
   p11Driver: '',
   p12Driver: '',
+  p13Driver: '',
+  p14Driver: '',
+  p15Driver: '',
+  p16Driver: '',
+  p17Driver: '',
+  p18Driver: '',
+  p19Driver: '',
+  p20Driver: '',
+  p21Driver: '',
+  p22Driver: '',
   sprintPoleSitter: '',
   sprintP1Driver: '',
   sprintP2Driver: '',
@@ -150,7 +160,7 @@ function RaceJournalPage({ t, tracks, drivers, raceJournal, favoriteSet, addRace
           <div className="full-row">
             <h3 className="section-heading">{t('raceClassification')}</h3>
             <div className="positions-grid">
-              {[...Array(12)].map((_, i) => {
+              {[...Array(22)].map((_, i) => {
                 const pos = i + 1
                 const field = `p${pos}Driver`
                 return (
