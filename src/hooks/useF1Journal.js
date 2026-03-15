@@ -17,6 +17,17 @@ const POINTS_BY_POSITION = {
   10: 1,
 }
 
+const SPRINT_POINTS_BY_POSITION = {
+  1: 8,
+  2: 7,
+  3: 6,
+  4: 5,
+  5: 4,
+  6: 3,
+  7: 2,
+  8: 1,
+}
+
 const createId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`
 
 const upsertBy = (items, predicate, nextItem) => {
@@ -189,6 +200,17 @@ const getRaceTop10 = (entry) => [
   entry.p8Driver,
   entry.p9Driver,
   entry.p10Driver,
+].map((item) => (item ?? '').trim())
+
+const getSprintTop8 = (entry) => [
+  entry.sprintP1Driver,
+  entry.sprintP2Driver,
+  entry.sprintP3Driver,
+  entry.sprintP4Driver,
+  entry.sprintP5Driver,
+  entry.sprintP6Driver,
+  entry.sprintP7Driver,
+  entry.sprintP8Driver,
 ].map((item) => (item ?? '').trim())
 
 export function useF1Journal() {
@@ -413,27 +435,49 @@ export function useF1Journal() {
   const seasonDriverMap = useMemo(() => {
     const map = new Map()
 
+    const ensureStanding = (name) => {
+      const existing = map.get(name)
+      if (existing) return existing
+
+      const created = {
+        driverName: name,
+        points: 0,
+        wins: 0,
+        podiums: 0,
+        bestResult: 99,
+        teamName: driverByName.get(normalizeName(name))?.team ?? 'Independent Entry',
+      }
+
+      map.set(name, created)
+      return created
+    }
+
     userRaceJournal.forEach((entry) => {
       const top10 = getRaceTop10(entry)
       top10.forEach((name, index) => {
         if (!name) return
 
-        const existing = map.get(name) ?? {
-          driverName: name,
-          points: 0,
-          wins: 0,
-          podiums: 0,
-          bestResult: 99,
-          teamName: driverByName.get(normalizeName(name))?.team ?? 'Independent Entry',
-        }
+        const existing = ensureStanding(name)
 
         const position = index + 1
         existing.points += POINTS_BY_POSITION[position] ?? 0
         if (position === 1) existing.wins += 1
         if (position <= 3) existing.podiums += 1
         if (position < existing.bestResult) existing.bestResult = position
+      })
 
-        map.set(name, existing)
+      const hasSprintPoints =
+        entry.weekendFormat?.sprint_points ?? (entry.format === 'sprint' || entry.format === 'experimental')
+
+      if (!hasSprintPoints) return
+
+      const sprintTop8 = getSprintTop8(entry)
+      sprintTop8.forEach((name, index) => {
+        if (!name) return
+
+        const existing = ensureStanding(name)
+        const sprintPosition = index + 1
+        existing.points += SPRINT_POINTS_BY_POSITION[sprintPosition] ?? 0
       })
     })
 
