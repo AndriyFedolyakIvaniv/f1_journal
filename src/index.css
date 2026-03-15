@@ -10,6 +10,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --accent: #59dcff;
+  --accent-red: #ff5346;
+  --border: rgba(201, 213, 247, 0.18);
+  --text-muted: #bac7ef;
+  --gold: #ffe87c;
+  --silver: #c5cfe0;
+  --bronze: #e8a87c;
 }
 
 * {

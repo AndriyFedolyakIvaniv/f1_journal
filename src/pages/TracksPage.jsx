@@ -72,10 +72,11 @@ function TracksPage({ tracks, trackJournal, favoriteSet, upsertTrackJournal, tog
           <h2>{selectedTrack.name}</h2>
           <button
             type="button"
-            className="ghost"
+            className="fav-btn"
             onClick={() => toggleFavorite('track', selectedTrack.id)}
+            title={favoriteSet.has(`track:${selectedTrack.id}`) ? 'Remove from favorites' : 'Add to favorites'}
           >
-            {favoriteSet.has(`track:${selectedTrack.id}`) ? 'Unfavorite' : 'Favorite'}
+            {favoriteSet.has(`track:${selectedTrack.id}`) ? '★' : '☆'}
           </button>
         </div>
 

@@ -1,5 +1,15 @@
 import { useState } from 'react'
 
+const WEATHER_ICON = { dry: '☀️', rain: '🌧️', mixed: '🌦️' }
+
+const FORMAT_LABEL = {
+  standard: '🏁 Race',
+  sprint: '⚡ Sprint',
+  experimental: '🧪 Exp',
+}
+
+const RACE_POS_BADGE = (pos) => (pos === 1 ? 'gold' : pos === 2 ? 'silver' : pos === 3 ? 'bronze' : '')
+
 const initialForm = (tracks) => ({
   grandPrix: '',
   circuitId: tracks[0]?.id ?? '',
@@ -21,7 +31,6 @@ const initialForm = (tracks) => ({
   p10Driver: '',
   p11Driver: '',
   p12Driver: '',
-  // Sprint weekend fields
   sprintPoleSitter: '',
   sprintP1Driver: '',
   sprintP2Driver: '',
@@ -42,10 +51,24 @@ const initialForm = (tracks) => ({
   notes: '',
 })
 
+function DriverSelect({ name, value, onChange, driverNames, prefix, required }) {
+  return (
+    <select name={name} value={value} onChange={onChange} required={required}>
+      <option value="">— driver —</option>
+      {driverNames.map((n) => (
+        <option key={`${prefix}-${n}`} value={n}>
+          {n}
+        </option>
+      ))}
+    </select>
+  )
+}
+
 function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEntry, toggleFavorite }) {
   const [form, setForm] = useState(initialForm(tracks))
 
   const driverNames = drivers.map((driver) => driver.name)
+  const isSprint = form.format === 'sprint' || form.format === 'experimental'
 
   const handleInput = (event) => {
     const { name, value } = event.target
@@ -62,7 +85,9 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
     <section className="screen-grid">
       <section className="card">
         <h2>Race Diary Entry</h2>
-        <form className="editor-form race-form" onSubmit={handleSubmit}>
+        <form className="race-form" onSubmit={handleSubmit}>
+
+          {/* ── GP Info ── */}
           <label>
             Grand Prix name
             <input name="grandPrix" value={form.grandPrix} onChange={handleInput} required />
@@ -87,249 +112,100 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
           <label>
             Weekend format
             <select name="format" value={form.format} onChange={handleInput}>
-              <option value="standard">Standard</option>
-              <option value="sprint">Sprint</option>
-              <option value="experimental">Experimental</option>
+              <option value="standard">🏁 Standard</option>
+              <option value="sprint">⚡ Sprint</option>
+              <option value="experimental">🧪 Experimental</option>
             </select>
           </label>
 
           <label>
-            Weather conditions
+            Weather
             <select name="weather" value={form.weather} onChange={handleInput}>
-              <option value="dry">Dry</option>
-              <option value="rain">Rain</option>
-              <option value="mixed">Mixed</option>
+              <option value="dry">☀️ Dry</option>
+              <option value="rain">🌧️ Rain</option>
+              <option value="mixed">🌦️ Mixed</option>
             </select>
           </label>
 
-          <label>
-            Pole position
-            <select name="polePosition" value={form.polePosition} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`pole-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            Fastest lap
-            <select name="fastestLap" value={form.fastestLap} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`fl-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            Driver of the day
-            <select name="driverOfDay" value={form.driverOfDay} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`dotd-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P1 driver
-            <select name="p1Driver" value={form.p1Driver} onChange={handleInput} required>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p1-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P2 driver
-            <select name="p2Driver" value={form.p2Driver} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p2-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P3 driver
-            <select name="p3Driver" value={form.p3Driver} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p3-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P4 driver
-            <select name="p4Driver" value={form.p4Driver} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p4-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P5 driver
-            <select name="p5Driver" value={form.p5Driver} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p5-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P6 driver
-            <select name="p6Driver" value={form.p6Driver} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p6-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P7 driver
-            <select name="p7Driver" value={form.p7Driver} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p7-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P8 driver
-            <select name="p8Driver" value={form.p8Driver} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p8-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P9 driver
-            <select name="p9Driver" value={form.p9Driver} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p9-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P10 driver
-            <select name="p10Driver" value={form.p10Driver} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p10-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P11 driver
-            <select name="p11Driver" value={form.p11Driver} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p11-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            P12 driver
-            <select name="p12Driver" value={form.p12Driver} onChange={handleInput}>
-              <option value="">Select driver</option>
-              {driverNames.map((name) => (
-                <option key={`p12-${name}`} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          {(form.format === 'sprint' || form.format === 'experimental') && (
-            <>
-              <h3 className="full-row section-heading">Sprint Race Results</h3>
-
+          {/* ── Key Awards ── */}
+          <div className="full-row">
+            <h3 className="section-heading">Key Awards</h3>
+            <div className="awards-row">
               <label>
-                Sprint Shootout pole
-                <select name="sprintPoleSitter" value={form.sprintPoleSitter} onChange={handleInput}>
-                  <option value="">Select driver</option>
-                  {driverNames.map((name) => (
-                    <option key={`sp-pole-${name}`} value={name}>
-                      {name}
-                    </option>
-                  ))}
-                </select>
+                Pole position
+                <DriverSelect name="polePosition" value={form.polePosition} onChange={handleInput} driverNames={driverNames} prefix="pole" />
               </label>
+              <label>
+                Fastest lap
+                <DriverSelect name="fastestLap" value={form.fastestLap} onChange={handleInput} driverNames={driverNames} prefix="fl" />
+              </label>
+              <label>
+                Driver of the day
+                <DriverSelect name="driverOfDay" value={form.driverOfDay} onChange={handleInput} driverNames={driverNames} prefix="dotd" />
+              </label>
+            </div>
+          </div>
 
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((pos) => (
-                <label key={`sprint-p${pos}`}>
-                  Sprint P{pos}
-                  <select
-                    name={`sprintP${pos}Driver`}
-                    value={form[`sprintP${pos}Driver`]}
-                    onChange={handleInput}
-                  >
-                    <option value="">Select driver</option>
-                    {driverNames.map((name) => (
-                      <option key={`sp${pos}-${name}`} value={name}>
-                        {name}
-                      </option>
-                    ))}
-                  </select>
+          {/* ── Race Classification ── */}
+          <div className="full-row">
+            <h3 className="section-heading">Race Classification</h3>
+            <div className="positions-grid">
+              {[...Array(12)].map((_, i) => {
+                const pos = i + 1
+                const field = `p${pos}Driver`
+                return (
+                  <div key={pos} className="pos-row">
+                    <span className={`pos-badge ${RACE_POS_BADGE(pos)}`}>P{pos}</span>
+                    <DriverSelect
+                      name={field}
+                      value={form[field]}
+                      onChange={handleInput}
+                      driverNames={driverNames}
+                      prefix={`p${pos}`}
+                      required={pos === 1}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* ── Sprint Results (conditional) ── */}
+          {isSprint && (
+            <div className="full-row">
+              <h3 className="section-heading">Sprint Race Results</h3>
+              <div className="awards-row" style={{ marginBottom: '10px' }}>
+                <label>
+                  Sprint Shootout pole
+                  <DriverSelect name="sprintPoleSitter" value={form.sprintPoleSitter} onChange={handleInput} driverNames={driverNames} prefix="sp-pole" />
                 </label>
-              ))}
-
-              <label>
-                Sprint rating (1-10)
-                <input
-                  type="number"
-                  min="1"
-                  max="10"
-                  name="sprintRating"
-                  value={form.sprintRating}
-                  onChange={handleInput}
-                />
-              </label>
-            </>
+                <label>
+                  Sprint rating (1-10)
+                  <input type="number" min="1" max="10" name="sprintRating" value={form.sprintRating} onChange={handleInput} />
+                </label>
+              </div>
+              <div className="positions-grid">
+                {[...Array(8)].map((_, i) => {
+                  const pos = i + 1
+                  const field = `sprintP${pos}Driver`
+                  return (
+                    <div key={pos} className="pos-row">
+                      <span className={`pos-badge ${RACE_POS_BADGE(pos)}`}>S{pos}</span>
+                      <DriverSelect
+                        name={field}
+                        value={form[field]}
+                        onChange={handleInput}
+                        driverNames={driverNames}
+                        prefix={`sp${pos}`}
+                      />
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
           )}
 
+          {/* ── Incidents ── */}
           <h3 className="full-row section-heading">Incidents</h3>
 
           <label>
@@ -347,21 +223,17 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
             <input type="number" min="0" name="redFlags" value={form.redFlags} onChange={handleInput} />
           </label>
 
-          <label>
-            Best overtake
-            <input name="bestOvertake" value={form.bestOvertake} onChange={handleInput} />
-          </label>
+          {/* ── My Take ── */}
+          <h3 className="full-row section-heading">My Take</h3>
 
           <label>
             Race rating (1-10)
-            <input
-              type="number"
-              min="1"
-              max="10"
-              name="raceRating"
-              value={form.raceRating}
-              onChange={handleInput}
-            />
+            <input type="number" min="1" max="10" name="raceRating" value={form.raceRating} onChange={handleInput} />
+          </label>
+
+          <label>
+            Best overtake
+            <input name="bestOvertake" value={form.bestOvertake} onChange={handleInput} />
           </label>
 
           <label>
@@ -370,13 +242,13 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
           </label>
 
           <label>
-            Disappointment of the race
+            Disappointment
             <input name="disappointment" value={form.disappointment} onChange={handleInput} />
           </label>
 
           <label className="full-row">
             Notes
-            <textarea name="notes" rows={4} value={form.notes} onChange={handleInput} />
+            <textarea name="notes" rows={3} value={form.notes} onChange={handleInput} />
           </label>
 
           <button type="submit" className="primary full-row">
@@ -390,38 +262,57 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
         {raceJournal.length === 0 ? (
           <p>No race entries yet.</p>
         ) : (
-          <ul className="stack-list race-list">
-            {raceJournal.slice(0, 10).map((entry) => (
-              <li key={entry.id}>
-                <div className="card-headline">
-                  <strong>{entry.grandPrix}</strong>
-                  <button
-                    type="button"
-                    className="ghost"
-                    onClick={() => toggleFavorite('race', entry.id)}
-                  >
-                    {favoriteSet.has(`race:${entry.id}`) ? 'Unfavorite' : 'Favorite'}
-                  </button>
-                </div>
-                <span>
-                  {entry.date || 'No date'} - {entry.weather || 'No weather'}
-                </span>
-                <p>
-                  Rating: {entry.raceRating}/10 | Winner: {entry.p1Driver || entry.winner || 'N/A'} | Pole:{' '}
-                  {entry.polePosition || 'N/A'}
-                </p>
-                <p>
-                  Top 3: {[entry.p1Driver, entry.p2Driver, entry.p3Driver].filter(Boolean).join(', ') || 'No podium yet'}
-                </p>
-                {entry.weekendFormat?.sprint_points && entry.sprintP1Driver && (
-                  <p>
-                    <span className="chip sprint-chip">SPRINT</span>{' '}
-                    Winner: {entry.sprintP1Driver} | Pole: {entry.sprintPoleSitter || 'N/A'}
-                  </p>
-                )}
-                <p>{entry.notes || 'No comments yet.'}</p>
-              </li>
-            ))}
+          <ul className="stack-list">
+            {raceJournal.slice(0, 10).map((entry) => {
+              const fmt = entry.weekendFormat?.type ?? entry.format ?? 'standard'
+              return (
+                <li key={entry.id} className="race-entry-card">
+                  <div className="card-headline">
+                    <div className="race-entry-title">
+                      <span className="format-chip">{FORMAT_LABEL[fmt] ?? '🏁 Race'}</span>
+                      <strong>{entry.grandPrix}</strong>
+                    </div>
+                    <button
+                      type="button"
+                      className="fav-btn"
+                      onClick={() => toggleFavorite('race', entry.id)}
+                      title={favoriteSet.has(`race:${entry.id}`) ? 'Remove from favorites' : 'Add to favorites'}
+                    >
+                      {favoriteSet.has(`race:${entry.id}`) ? '★' : '☆'}
+                    </button>
+                  </div>
+
+                  <div className="race-meta">
+                    <span>{entry.date || '—'}</span>
+                    <span>{WEATHER_ICON[entry.weather] ?? ''} {entry.weather}</span>
+                    <span className="race-rating-chip">{entry.raceRating}/10</span>
+                  </div>
+
+                  <div className="podium-row">
+                    <span className="podium-pos gold">P1 {entry.p1Driver || '—'}</span>
+                    <span className="podium-pos silver">P2 {entry.p2Driver || '—'}</span>
+                    <span className="podium-pos bronze">P3 {entry.p3Driver || '—'}</span>
+                  </div>
+
+                  {(entry.polePosition || entry.fastestLap) && (
+                    <p className="race-stat-line">
+                      {entry.polePosition && <>⚡ Pole: <strong>{entry.polePosition}</strong></>}
+                      {entry.polePosition && entry.fastestLap && ' · '}
+                      {entry.fastestLap && <>FL: <strong>{entry.fastestLap}</strong></>}
+                    </p>
+                  )}
+
+                  {entry.weekendFormat?.sprint_points && entry.sprintP1Driver && (
+                    <p className="race-stat-line">
+                      <span className="chip sprint-chip">SPRINT</span>{' '}
+                      {entry.sprintP1Driver} wins · Pole: {entry.sprintPoleSitter || '—'}
+                    </p>
+                  )}
+
+                  {entry.notes && <p className="race-notes">{entry.notes}</p>}
+                </li>
+              )
+            })}
           </ul>
         )}
       </section>

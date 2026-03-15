@@ -9,13 +9,16 @@ function HomePage({ dashboard, drivers, tracks, raceJournal, onNavigate }) {
         <h2>Quick Access</h2>
         <div className="chip-row">
           <button type="button" onClick={() => onNavigate('drivers')}>
-            Drivers
+            👤 Drivers
           </button>
           <button type="button" onClick={() => onNavigate('tracks')}>
-            Tracks
+            🏁 Tracks
           </button>
           <button type="button" onClick={() => onNavigate('journal')}>
-            Race Journal
+            📋 Race Journal
+          </button>
+          <button type="button" onClick={() => onNavigate('season')}>
+            🏆 Season Stats
           </button>
         </div>
       </section>

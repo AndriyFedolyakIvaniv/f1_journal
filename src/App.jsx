@@ -9,12 +9,12 @@ import TracksPage from './pages/TracksPage'
 import './App.css'
 
 const tabs = [
-  { id: 'home', label: 'Home' },
-  { id: 'drivers', label: 'Drivers' },
-  { id: 'tracks', label: 'Tracks' },
-  { id: 'journal', label: 'Race Journal' },
-  { id: 'favorites', label: 'Favorites & Stats' },
-  { id: 'season', label: 'Season Stats' },
+  { id: 'home', label: '🏠 Home' },
+  { id: 'drivers', label: '👤 Drivers' },
+  { id: 'tracks', label: '🏁 Tracks' },
+  { id: 'journal', label: '📋 Race Journal' },
+  { id: 'favorites', label: '⭐ Favorites' },
+  { id: 'season', label: '🏆 Season' },
 ]
 
 function App() {
