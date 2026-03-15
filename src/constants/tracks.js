@@ -1,0 +1,26 @@
+import { createTrack } from '../models/track.model'
+
+export const TRACKS = [
+  createTrack({ id: 'albert-park', name: 'Albert Park Circuit', country: 'Australia', city: 'Melbourne', lapLength: 5.278 }),
+  createTrack({ id: 'shanghai', name: 'Shanghai International Circuit', country: 'China', city: 'Shanghai', lapLength: 5.451 }),
+  createTrack({ id: 'suzuka', name: 'Suzuka Circuit', country: 'Japan', city: 'Suzuka', lapLength: 5.807 }),
+  createTrack({ id: 'miami', name: 'Miami International Autodrome', country: 'United States', city: 'Miami', lapLength: 5.412 }),
+  createTrack({ id: 'gilles-villeneuve', name: 'Circuit Gilles Villeneuve', country: 'Canada', city: 'Montreal', lapLength: 4.361 }),
+  createTrack({ id: 'monaco', name: 'Circuit de Monaco', country: 'Monaco', city: 'Monte Carlo', lapLength: 3.337 }),
+  createTrack({ id: 'barcelona', name: 'Circuit de Barcelona-Catalunya', country: 'Spain', city: 'Barcelona', lapLength: 4.657 }),
+  createTrack({ id: 'red-bull-ring', name: 'Red Bull Ring', country: 'Austria', city: 'Spielberg', lapLength: 4.318 }),
+  createTrack({ id: 'silverstone', name: 'Silverstone Circuit', country: 'United Kingdom', city: 'Silverstone', lapLength: 5.891 }),
+  createTrack({ id: 'spa', name: 'Circuit de Spa-Francorchamps', country: 'Belgium', city: 'Spa', lapLength: 7.004 }),
+  createTrack({ id: 'hungaroring', name: 'Hungaroring', country: 'Hungary', city: 'Budapest', lapLength: 4.381 }),
+  createTrack({ id: 'zandvoort', name: 'Circuit Zandvoort', country: 'Netherlands', city: 'Zandvoort', lapLength: 4.259 }),
+  createTrack({ id: 'monza', name: 'Monza Circuit', country: 'Italy', city: 'Monza', lapLength: 5.793 }),
+  createTrack({ id: 'madring', name: 'Madring Circuit', country: 'Spain', city: 'Madrid', lapLength: 5.4 }),
+  createTrack({ id: 'baku', name: 'Baku City Circuit', country: 'Azerbaijan', city: 'Baku', lapLength: 6.003 }),
+  createTrack({ id: 'marina-bay', name: 'Marina Bay Street Circuit', country: 'Singapore', city: 'Singapore', lapLength: 4.94 }),
+  createTrack({ id: 'cota', name: 'Circuit of the Americas', country: 'United States', city: 'Austin', lapLength: 5.513 }),
+  createTrack({ id: 'mexico-city', name: 'Autodromo Hermanos Rodriguez', country: 'Mexico', city: 'Mexico City', lapLength: 4.304 }),
+  createTrack({ id: 'interlagos', name: 'Autodromo Jose Carlos Pace', country: 'Brazil', city: 'Interlagos', lapLength: 4.309 }),
+  createTrack({ id: 'las-vegas', name: 'Las Vegas Strip Circuit', country: 'United States', city: 'Las Vegas', lapLength: 6.201 }),
+  createTrack({ id: 'losail', name: 'Losail International Circuit', country: 'Qatar', city: 'Lusail', lapLength: 5.419 }),
+  createTrack({ id: 'yas-marina', name: 'Yas Marina Circuit', country: 'United Arab Emirates', city: 'Abu Dhabi', lapLength: 5.281 }),
+]

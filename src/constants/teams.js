@@ -1,0 +1,81 @@
+import { createTeam } from '../models/team.model'
+
+export const TEAMS = [
+  createTeam({
+    id: 'mclaren',
+    name: 'McLaren',
+    engine: 'Mercedes',
+    drivers: ['Lando Norris', 'Oscar Piastri'],
+    notes: 'Defend constructors and drivers titles.',
+  }),
+  createTeam({
+    id: 'mercedes',
+    name: 'Mercedes-AMG Petronas Formula One Team',
+    engine: 'Mercedes',
+    drivers: ['George Russell', 'Andrea Kimi Antonelli'],
+    notes: 'Generational transition with Russell as lead driver.',
+  }),
+  createTeam({
+    id: 'red-bull',
+    name: 'Red Bull Racing',
+    engine: 'Red Bull-Ford',
+    drivers: ['Max Verstappen', 'Isack Hadjar'],
+    notes: 'New in-house power unit project with Ford.',
+  }),
+  createTeam({
+    id: 'ferrari',
+    name: 'Scuderia Ferrari',
+    engine: 'Ferrari',
+    drivers: ['Lewis Hamilton', 'Charles Leclerc'],
+    notes: 'Experience and prime talent combination.',
+  }),
+  createTeam({
+    id: 'williams',
+    name: 'Williams Racing',
+    engine: 'Mercedes',
+    drivers: ['Alexander Albon', 'Carlos Sainz Jr.'],
+    notes: 'Build consistency in midfield battles.',
+  }),
+  createTeam({
+    id: 'racing-bulls',
+    name: 'Racing Bulls F1 Team',
+    engine: 'Red Bull-Ford',
+    drivers: ['Liam Lawson', 'Arvid Lindblad'],
+    notes: 'Rookie development cycle around Lindblad.',
+  }),
+  createTeam({
+    id: 'aston-martin',
+    name: 'Aston Martin F1 Team',
+    engine: 'Honda',
+    drivers: ['Fernando Alonso', 'Lance Stroll'],
+    notes: 'Target race-day consistency and podium opportunities.',
+  }),
+  createTeam({
+    id: 'haas',
+    name: 'Haas F1 Team',
+    engine: 'Ferrari',
+    drivers: ['Esteban Ocon', 'Oliver Bearman'],
+    notes: 'Balanced line-up with youth and experience.',
+  }),
+  createTeam({
+    id: 'alpine',
+    name: 'Alpine F1 Team',
+    engine: 'Mercedes',
+    drivers: ['Pierre Gasly', 'Franco Colapinto'],
+    notes: 'Reset cycle focused on stable points finishes.',
+  }),
+  createTeam({
+    id: 'audi',
+    name: 'Audi F1 Team',
+    engine: 'Audi',
+    drivers: ['Nico Hulkenberg', 'Gabriel Bortoleto'],
+    notes: 'Factory project building long-term competitiveness.',
+  }),
+  createTeam({
+    id: 'cadillac',
+    name: 'Cadillac Formula 1 Team',
+    engine: 'Ferrari',
+    drivers: ['Sergio Perez', 'Valtteri Bottas'],
+    notes: 'New entry aiming to establish baseline performance.',
+  }),
+]

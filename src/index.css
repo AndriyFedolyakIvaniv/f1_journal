@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700&family=Sora:wght@600;700&display=swap');
+
+:root {
+  font-family: 'Barlow', 'Segoe UI', sans-serif;
+  line-height: 1.45;
+  font-weight: 400;
+  color: #f2f5ff;
+  background: #05060d;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(79, 187, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 94% 86%, rgba(255, 83, 70, 0.2), transparent 35%),
+    linear-gradient(165deg, #080b16 0%, #111625 56%, #1a1114 100%);
+}
+
+#root {
+  min-height: 100svh;
+}

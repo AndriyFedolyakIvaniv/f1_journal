@@ -1,0 +1,52 @@
+.driver-card {
+  width: min(760px, 92vw);
+  margin-top: 16px;
+  border-radius: 18px;
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(11, 18, 38, 0.78), rgba(35, 22, 26, 0.78));
+  border: 1px solid rgba(220, 228, 255, 0.2);
+  color: #e8ecff;
+}
+
+.driver-card__label {
+  margin: 0;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+.driver-card__name {
+  margin: 8px 0 4px;
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+}
+
+.driver-card__team {
+  margin: 0 0 14px;
+  color: #bec8eb;
+}
+
+.driver-card__meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.driver-card__meta div {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.driver-card__meta span {
+  display: block;
+  opacity: 0.75;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 620px) {
+  .driver-card__meta {
+    grid-template-columns: 1fr;
+  }
+}

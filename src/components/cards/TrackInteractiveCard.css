@@ -1,0 +1,184 @@
+.track-card-wrap {
+  width: min(760px, 92vw);
+}
+
+.track-card {
+  --glow-x: 50%;
+  --glow-y: 50%;
+  position: relative;
+  text-align: left;
+  border-radius: 24px;
+  padding: clamp(20px, 2.6vw, 34px);
+  transform-style: preserve-3d;
+  transition: transform 120ms ease-out;
+  overflow: hidden;
+  color: #f6f7fb;
+  background:
+    radial-gradient(circle at var(--glow-x) var(--glow-y), rgba(105, 250, 255, 0.28), transparent 35%),
+    linear-gradient(128deg, #151928 0%, #111829 42%, #23181b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 24px 45px rgba(11, 11, 15, 0.36),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.track-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    -63deg,
+    rgba(255, 255, 255, 0.03) 0,
+    rgba(255, 255, 255, 0.03) 12px,
+    rgba(255, 255, 255, 0.01) 12px,
+    rgba(255, 255, 255, 0.01) 24px
+  );
+}
+
+.track-card__header,
+.track-card__title,
+.track-card__subtitle,
+.track-card__metrics,
+.track-card__sessions,
+.track-card__footer {
+  position: relative;
+  z-index: 1;
+}
+
+.track-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.track-card__tag,
+.track-card__status {
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+}
+
+.track-card__tag {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.track-card__status {
+  background: rgba(255, 68, 71, 0.18);
+  border: 1px solid rgba(255, 90, 94, 0.48);
+  color: #ffd4d4;
+}
+
+.track-card__title {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.2vw, 2.35rem);
+  line-height: 1.1;
+  font-family: 'Sora', 'Trebuchet MS', sans-serif;
+}
+
+.track-card__subtitle {
+  margin: 10px 0 22px;
+  max-width: 58ch;
+  color: rgba(236, 241, 252, 0.84);
+}
+
+.track-card__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.track-card__metrics div {
+  border-radius: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.metric-label {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: rgba(227, 236, 255, 0.72);
+}
+
+.track-card__sessions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.session-chip {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f6f7fb;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 700;
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.session-chip small {
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+.session-chip:hover {
+  transform: translateY(-2px);
+  border-color: rgba(105, 250, 255, 0.7);
+}
+
+.session-chip.is-active {
+  background: linear-gradient(118deg, rgba(105, 250, 255, 0.21), rgba(255, 95, 99, 0.2));
+  border-color: rgba(255, 255, 255, 0.46);
+}
+
+.track-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.track-card__footer p {
+  margin: 0;
+  color: rgba(236, 241, 252, 0.88);
+}
+
+.cta-button {
+  border: none;
+  border-radius: 12px;
+  padding: 11px 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: linear-gradient(95deg, #ff5154 0%, #ff7b4a 100%);
+  color: #1a0e0f;
+  box-shadow: 0 8px 22px rgba(255, 96, 82, 0.32);
+}
+
+@media (max-width: 740px) {
+  .track-card {
+    border-radius: 20px;
+  }
+
+  .track-card__metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .track-card__sessions,
+  .track-card__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

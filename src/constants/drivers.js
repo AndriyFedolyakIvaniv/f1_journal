@@ -1,0 +1,26 @@
+import { createDriver } from '../models/driver.model'
+
+export const DRIVERS = [
+  createDriver({ id: 'norris', name: 'Lando Norris', number: 4, teamId: 'mclaren', team: 'McLaren', nationality: 'United Kingdom' }),
+  createDriver({ id: 'piastri', name: 'Oscar Piastri', number: 81, teamId: 'mclaren', team: 'McLaren', nationality: 'Australia' }),
+  createDriver({ id: 'russell', name: 'George Russell', number: 63, teamId: 'mercedes', team: 'Mercedes-AMG Petronas Formula One Team', nationality: 'United Kingdom' }),
+  createDriver({ id: 'antonelli', name: 'Andrea Kimi Antonelli', number: 12, teamId: 'mercedes', team: 'Mercedes-AMG Petronas Formula One Team', nationality: 'Italy' }),
+  createDriver({ id: 'verstappen', name: 'Max Verstappen', number: 1, teamId: 'red-bull', team: 'Red Bull Racing', nationality: 'Netherlands' }),
+  createDriver({ id: 'hadjar', name: 'Isack Hadjar', number: 6, teamId: 'red-bull', team: 'Red Bull Racing', nationality: 'France' }),
+  createDriver({ id: 'hamilton', name: 'Lewis Hamilton', number: 44, teamId: 'ferrari', team: 'Scuderia Ferrari', nationality: 'United Kingdom' }),
+  createDriver({ id: 'leclerc', name: 'Charles Leclerc', number: 16, teamId: 'ferrari', team: 'Scuderia Ferrari', nationality: 'Monaco' }),
+  createDriver({ id: 'albon', name: 'Alexander Albon', number: 23, teamId: 'williams', team: 'Williams Racing', nationality: 'Thailand' }),
+  createDriver({ id: 'sainz', name: 'Carlos Sainz Jr.', number: 55, teamId: 'williams', team: 'Williams Racing', nationality: 'Spain' }),
+  createDriver({ id: 'lawson', name: 'Liam Lawson', number: 30, teamId: 'racing-bulls', team: 'Racing Bulls F1 Team', nationality: 'New Zealand' }),
+  createDriver({ id: 'lindblad', name: 'Arvid Lindblad', number: 17, teamId: 'racing-bulls', team: 'Racing Bulls F1 Team', nationality: 'United Kingdom' }),
+  createDriver({ id: 'alonso', name: 'Fernando Alonso', number: 14, teamId: 'aston-martin', team: 'Aston Martin F1 Team', nationality: 'Spain' }),
+  createDriver({ id: 'stroll', name: 'Lance Stroll', number: 18, teamId: 'aston-martin', team: 'Aston Martin F1 Team', nationality: 'Canada' }),
+  createDriver({ id: 'ocon', name: 'Esteban Ocon', number: 31, teamId: 'haas', team: 'Haas F1 Team', nationality: 'France' }),
+  createDriver({ id: 'bearman', name: 'Oliver Bearman', number: 87, teamId: 'haas', team: 'Haas F1 Team', nationality: 'United Kingdom' }),
+  createDriver({ id: 'gasly', name: 'Pierre Gasly', number: 10, teamId: 'alpine', team: 'Alpine F1 Team', nationality: 'France' }),
+  createDriver({ id: 'colapinto', name: 'Franco Colapinto', number: 43, teamId: 'alpine', team: 'Alpine F1 Team', nationality: 'Argentina' }),
+  createDriver({ id: 'hulkenberg', name: 'Nico Hulkenberg', number: 27, teamId: 'audi', team: 'Audi F1 Team', nationality: 'Germany' }),
+  createDriver({ id: 'bortoleto', name: 'Gabriel Bortoleto', number: 5, teamId: 'audi', team: 'Audi F1 Team', nationality: 'Brazil' }),
+  createDriver({ id: 'perez', name: 'Sergio Perez', number: 11, teamId: 'cadillac', team: 'Cadillac Formula 1 Team', nationality: 'Mexico' }),
+  createDriver({ id: 'bottas', name: 'Valtteri Bottas', number: 77, teamId: 'cadillac', team: 'Cadillac Formula 1 Team', nationality: 'Finland' }),
+]

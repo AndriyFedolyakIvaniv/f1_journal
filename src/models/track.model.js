@@ -1,0 +1,23 @@
+export const createTrack = ({
+  id,
+  name,
+  country,
+  city,
+  lapLength,
+  notes = '',
+  lengthKm,
+  corners,
+  lapRecord,
+  sessions = [],
+}) => ({
+  id,
+  name,
+  country,
+  city,
+  lapLength,
+  notes,
+  lengthKm: lengthKm ?? lapLength,
+  corners,
+  lapRecord,
+  sessions,
+})

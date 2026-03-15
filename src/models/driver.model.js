@@ -1,0 +1,23 @@
+export const createDriver = ({
+  id,
+  name,
+  number,
+  teamId,
+  team,
+  nationality,
+  wins = 0,
+  podiums = 0,
+  points = 0,
+  notes = '',
+}) => ({
+  id,
+  name,
+  number,
+  teamId,
+  team,
+  nationality,
+  wins,
+  podiums,
+  points,
+  notes,
+})
