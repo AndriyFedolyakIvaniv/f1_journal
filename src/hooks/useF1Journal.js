@@ -463,6 +463,15 @@ export function useF1Journal() {
 
   const driverOfDayTop = getTopFrequency(userRaceJournal.map((item) => item.driverOfDay))
 
+  const highestRatedDriverNote = userDriverJournal.reduce((best, item) => {
+    if (!best || item.rating > best.rating) return item
+    return best
+  }, null)
+
+  const highestRatedDriverName = highestRatedDriverNote
+    ? (DRIVERS.find((d) => d.id === highestRatedDriverNote.driverId)?.name ?? null)
+    : null
+
   const favoriteDriver = userFavorites.find((item) => item.type === 'driver')
   const favoriteTrack = userFavorites.find((item) => item.type === 'track')
 
@@ -499,8 +508,8 @@ export function useF1Journal() {
   }
 
   const stats = {
-    mostRatedDriverName: driverOfDayTop.key,
-    mostRatedDriverCount: driverOfDayTop.count,
+    mostRatedDriverName: highestRatedDriverName,
+    mostRatedDriverCount: highestRatedDriverNote?.rating ?? 0,
     highestRatedCircuitId: highestRatedCircuitNote?.trackId ?? null,
     averageRaceRating: avgRaceRating,
     racesLogged: userRaceJournal.length,
