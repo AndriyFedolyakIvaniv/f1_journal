@@ -2,11 +2,6 @@ import { useState } from 'react'
 
 const WEATHER_ICON = { dry: '☀️', rain: '🌧️', mixed: '🌦️' }
 
-const FORMAT_LABEL = {
-  standard: '🏁 Race',
-  sprint: '⚡ Sprint',
-  experimental: '🧪 Exp',
-}
 
 const RACE_POS_BADGE = (pos) => (pos === 1 ? 'gold' : pos === 2 ? 'silver' : pos === 3 ? 'bronze' : '')
 
@@ -51,10 +46,10 @@ const initialForm = (tracks) => ({
   notes: '',
 })
 
-function DriverSelect({ name, value, onChange, driverNames, prefix, required }) {
+function DriverSelect({ name, value, onChange, driverNames, prefix, required, t }) {
   return (
     <select name={name} value={value} onChange={onChange} required={required}>
-      <option value="">— driver —</option>
+      <option value="">{t('driverPlaceholder')}</option>
       {driverNames.map((n) => (
         <option key={`${prefix}-${n}`} value={n}>
           {n}
@@ -64,11 +59,16 @@ function DriverSelect({ name, value, onChange, driverNames, prefix, required }) 
   )
 }
 
-function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEntry, toggleFavorite }) {
+function RaceJournalPage({ t, tracks, drivers, raceJournal, favoriteSet, addRaceEntry, toggleFavorite }) {
   const [form, setForm] = useState(initialForm(tracks))
 
   const driverNames = drivers.map((driver) => driver.name)
   const isSprint = form.format === 'sprint' || form.format === 'experimental'
+  const formatLabel = {
+    standard: `🏁 ${t('formatRace')}`,
+    sprint: `⚡ ${t('formatSprint')}`,
+    experimental: `🧪 ${t('formatExperimental')}`,
+  }
 
   const handleInput = (event) => {
     const { name, value } = event.target
@@ -84,17 +84,17 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
   return (
     <section className="screen-grid">
       <section className="card">
-        <h2>Race Diary Entry</h2>
+        <h2>{t('raceDiaryEntry')}</h2>
         <form className="race-form" onSubmit={handleSubmit}>
 
           {/* ── GP Info ── */}
           <label>
-            Grand Prix name
+            {t('grandPrixName')}
             <input name="grandPrix" value={form.grandPrix} onChange={handleInput} required />
           </label>
 
           <label>
-            Circuit
+            {t('circuit')}
             <select name="circuitId" value={form.circuitId} onChange={handleInput}>
               {tracks.map((track) => (
                 <option key={track.id} value={track.id}>
@@ -105,50 +105,50 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
           </label>
 
           <label>
-            Date
+            {t('date')}
             <input type="date" name="date" value={form.date} onChange={handleInput} />
           </label>
 
           <label>
-            Weekend format
+            {t('weekendFormat')}
             <select name="format" value={form.format} onChange={handleInput}>
-              <option value="standard">🏁 Standard</option>
-              <option value="sprint">⚡ Sprint</option>
-              <option value="experimental">🧪 Experimental</option>
+              <option value="standard">🏁 {t('formatStandard')}</option>
+              <option value="sprint">⚡ {t('formatSprint')}</option>
+              <option value="experimental">🧪 {t('formatExperimental')}</option>
             </select>
           </label>
 
           <label>
-            Weather
+            {t('weather')}
             <select name="weather" value={form.weather} onChange={handleInput}>
-              <option value="dry">☀️ Dry</option>
-              <option value="rain">🌧️ Rain</option>
-              <option value="mixed">🌦️ Mixed</option>
+              <option value="dry">☀️ {t('weatherDry')}</option>
+              <option value="rain">🌧️ {t('weatherRain')}</option>
+              <option value="mixed">🌦️ {t('weatherMixed')}</option>
             </select>
           </label>
 
           {/* ── Key Awards ── */}
           <div className="full-row">
-            <h3 className="section-heading">Key Awards</h3>
+            <h3 className="section-heading">{t('keyAwards')}</h3>
             <div className="awards-row">
               <label>
-                Pole position
-                <DriverSelect name="polePosition" value={form.polePosition} onChange={handleInput} driverNames={driverNames} prefix="pole" />
+                {t('polePosition')}
+                <DriverSelect name="polePosition" value={form.polePosition} onChange={handleInput} driverNames={driverNames} prefix="pole" t={t} />
               </label>
               <label>
-                Fastest lap
-                <DriverSelect name="fastestLap" value={form.fastestLap} onChange={handleInput} driverNames={driverNames} prefix="fl" />
+                {t('fastestLap')}
+                <DriverSelect name="fastestLap" value={form.fastestLap} onChange={handleInput} driverNames={driverNames} prefix="fl" t={t} />
               </label>
               <label>
-                Driver of the day
-                <DriverSelect name="driverOfDay" value={form.driverOfDay} onChange={handleInput} driverNames={driverNames} prefix="dotd" />
+                {t('driverOfDay')}
+                <DriverSelect name="driverOfDay" value={form.driverOfDay} onChange={handleInput} driverNames={driverNames} prefix="dotd" t={t} />
               </label>
             </div>
           </div>
 
           {/* ── Race Classification ── */}
           <div className="full-row">
-            <h3 className="section-heading">Race Classification</h3>
+            <h3 className="section-heading">{t('raceClassification')}</h3>
             <div className="positions-grid">
               {[...Array(12)].map((_, i) => {
                 const pos = i + 1
@@ -163,6 +163,7 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
                       driverNames={driverNames}
                       prefix={`p${pos}`}
                       required={pos === 1}
+                      t={t}
                     />
                   </div>
                 )
@@ -173,14 +174,14 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
           {/* ── Sprint Results (conditional) ── */}
           {isSprint && (
             <div className="full-row">
-              <h3 className="section-heading">Sprint Race Results</h3>
+              <h3 className="section-heading">{t('sprintRaceResults')}</h3>
               <div className="awards-row" style={{ marginBottom: '10px' }}>
                 <label>
-                  Sprint Shootout pole
-                  <DriverSelect name="sprintPoleSitter" value={form.sprintPoleSitter} onChange={handleInput} driverNames={driverNames} prefix="sp-pole" />
+                  {t('sprintShootoutPole')}
+                  <DriverSelect name="sprintPoleSitter" value={form.sprintPoleSitter} onChange={handleInput} driverNames={driverNames} prefix="sp-pole" t={t} />
                 </label>
                 <label>
-                  Sprint rating (1-10)
+                  {t('sprintRating')}
                   <input type="number" min="1" max="10" name="sprintRating" value={form.sprintRating} onChange={handleInput} />
                 </label>
               </div>
@@ -197,6 +198,7 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
                         onChange={handleInput}
                         driverNames={driverNames}
                         prefix={`sp${pos}`}
+                        t={t}
                       />
                     </div>
                   )
@@ -206,61 +208,61 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
           )}
 
           {/* ── Incidents ── */}
-          <h3 className="full-row section-heading">Incidents</h3>
+          <h3 className="full-row section-heading">{t('incidents')}</h3>
 
           <label>
-            DNF drivers (comma separated)
+            {t('dnfDrivers')}
             <input name="dnfDrivers" value={form.dnfDrivers} onChange={handleInput} />
           </label>
 
           <label>
-            Safety cars
+            {t('safetyCars')}
             <input type="number" min="0" name="safetyCars" value={form.safetyCars} onChange={handleInput} />
           </label>
 
           <label>
-            Red flags
+            {t('redFlags')}
             <input type="number" min="0" name="redFlags" value={form.redFlags} onChange={handleInput} />
           </label>
 
           {/* ── My Take ── */}
-          <h3 className="full-row section-heading">My Take</h3>
+          <h3 className="full-row section-heading">{t('myTake')}</h3>
 
           <label>
-            Race rating (1-10)
+            {t('raceRating')}
             <input type="number" min="1" max="10" name="raceRating" value={form.raceRating} onChange={handleInput} />
           </label>
 
           <label>
-            Best overtake
+            {t('bestOvertake')}
             <input name="bestOvertake" value={form.bestOvertake} onChange={handleInput} />
           </label>
 
           <label>
-            Surprise of the race
+            {t('surprise')}
             <input name="surprise" value={form.surprise} onChange={handleInput} />
           </label>
 
           <label>
-            Disappointment
+            {t('disappointment')}
             <input name="disappointment" value={form.disappointment} onChange={handleInput} />
           </label>
 
           <label className="full-row">
-            Notes
+            {t('notes')}
             <textarea name="notes" rows={3} value={form.notes} onChange={handleInput} />
           </label>
 
           <button type="submit" className="primary full-row">
-            Save race entry
+            {t('saveRaceEntry')}
           </button>
         </form>
       </section>
 
       <section className="card">
-        <h2>Latest race entries</h2>
+        <h2>{t('latestRaceEntries')}</h2>
         {raceJournal.length === 0 ? (
-          <p>No race entries yet.</p>
+          <p>{t('noRaceEntries')}</p>
         ) : (
           <ul className="stack-list">
             {raceJournal.slice(0, 10).map((entry) => {
@@ -269,7 +271,7 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
                 <li key={entry.id} className="race-entry-card">
                   <div className="card-headline">
                     <div className="race-entry-title">
-                      <span className="format-chip">{FORMAT_LABEL[fmt] ?? '🏁 Race'}</span>
+                      <span className="format-chip">{formatLabel[fmt] ?? `🏁 ${t('formatRace')}`}</span>
                       <strong>{entry.grandPrix}</strong>
                     </div>
                     <button
@@ -304,8 +306,8 @@ function RaceJournalPage({ tracks, drivers, raceJournal, favoriteSet, addRaceEnt
 
                   {entry.weekendFormat?.sprint_points && entry.sprintP1Driver && (
                     <p className="race-stat-line">
-                      <span className="chip sprint-chip">SPRINT</span>{' '}
-                      {entry.sprintP1Driver} wins · Pole: {entry.sprintPoleSitter || '—'}
+                      <span className="chip sprint-chip">{t('sprintChip')}</span>{' '}
+                      {entry.sprintP1Driver} {t('wins')} · Pole: {entry.sprintPoleSitter || '—'}
                     </p>
                   )}
 

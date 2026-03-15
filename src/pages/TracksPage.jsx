@@ -8,7 +8,7 @@ const emptyForm = {
   personalNotes: '',
 }
 
-function TracksPage({ tracks, trackJournal, favoriteSet, upsertTrackJournal, toggleFavorite }) {
+function TracksPage({ t, tracks, trackJournal, favoriteSet, upsertTrackJournal, toggleFavorite }) {
   const [selectedTrackId, setSelectedTrackId] = useState(tracks[0]?.id ?? '')
 
   const selectedTrack = useMemo(
@@ -46,7 +46,7 @@ function TracksPage({ tracks, trackJournal, favoriteSet, upsertTrackJournal, tog
   return (
     <section className="screen-grid two-col">
       <section className="card">
-        <h2>Tracks</h2>
+        <h2>{t('tracks')}</h2>
         <ul className="entity-list">
           {tracks.map((track) => {
             const note = trackJournal.find((item) => item.trackId === track.id)
@@ -59,7 +59,7 @@ function TracksPage({ tracks, trackJournal, favoriteSet, upsertTrackJournal, tog
                       {track.city}, {track.country} - {track.lapLength ?? track.lengthKm} km
                     </span>
                   </div>
-                  <small>{'★'.repeat(note?.rating || 0) || 'No rating'}</small>
+                  <small>{'★'.repeat(note?.rating || 0) || t('noRating')}</small>
                 </button>
               </li>
             )
@@ -82,32 +82,32 @@ function TracksPage({ tracks, trackJournal, favoriteSet, upsertTrackJournal, tog
 
         <form className="editor-form" onSubmit={handleSave}>
           <label>
-            Personal rating (1-5)
+            {t('personalRating')}
             <input name="rating" type="number" min="0" max="5" value={form.rating} onChange={handleInput} />
           </label>
 
           <label>
-            Favorite corner
+            {t('favoriteCorner')}
             <input name="favoriteCorner" value={form.favoriteCorner} onChange={handleInput} />
           </label>
 
           <label>
-            Hardest section
+            {t('hardestSection')}
             <input name="hardestSection" value={form.hardestSection} onChange={handleInput} />
           </label>
 
           <label>
-            Best race remembered at this circuit
+            {t('bestRaceRemembered')}
             <input name="bestRaceRemembered" value={form.bestRaceRemembered} onChange={handleInput} />
           </label>
 
           <label>
-            Personal notes
+            {t('personalNotes')}
             <textarea name="personalNotes" rows={4} value={form.personalNotes} onChange={handleInput} />
           </label>
 
           <button type="submit" className="primary">
-            Save track notes
+            {t('saveTrackNotes')}
           </button>
         </form>
       </section>

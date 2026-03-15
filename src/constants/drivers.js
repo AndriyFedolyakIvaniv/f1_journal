@@ -1,11 +1,11 @@
 import { createDriver } from '../models/driver.model'
 
 export const DRIVERS = [
-  createDriver({ id: 'norris', name: 'Lando Norris', number: 4, teamId: 'mclaren', team: 'McLaren', nationality: 'United Kingdom' }),
+  createDriver({ id: 'norris', name: 'Lando Norris', number: 1, teamId: 'mclaren', team: 'McLaren', nationality: 'United Kingdom' }),
   createDriver({ id: 'piastri', name: 'Oscar Piastri', number: 81, teamId: 'mclaren', team: 'McLaren', nationality: 'Australia' }),
   createDriver({ id: 'russell', name: 'George Russell', number: 63, teamId: 'mercedes', team: 'Mercedes-AMG Petronas Formula One Team', nationality: 'United Kingdom' }),
   createDriver({ id: 'antonelli', name: 'Andrea Kimi Antonelli', number: 12, teamId: 'mercedes', team: 'Mercedes-AMG Petronas Formula One Team', nationality: 'Italy' }),
-  createDriver({ id: 'verstappen', name: 'Max Verstappen', number: 1, teamId: 'red-bull', team: 'Red Bull Racing', nationality: 'Netherlands' }),
+  createDriver({ id: 'verstappen', name: 'Max Verstappen', number: 3, teamId: 'red-bull', team: 'Red Bull Racing', nationality: 'Netherlands' }),
   createDriver({ id: 'hadjar', name: 'Isack Hadjar', number: 6, teamId: 'red-bull', team: 'Red Bull Racing', nationality: 'France' }),
   createDriver({ id: 'hamilton', name: 'Lewis Hamilton', number: 44, teamId: 'ferrari', team: 'Scuderia Ferrari', nationality: 'United Kingdom' }),
   createDriver({ id: 'leclerc', name: 'Charles Leclerc', number: 16, teamId: 'ferrari', team: 'Scuderia Ferrari', nationality: 'Monaco' }),

@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useF1Journal } from './hooks/useF1Journal'
+import { createTranslator, I18N_STORAGE_KEY } from './i18n'
 import DriversPage from './pages/DriversPage'
 import FavoritesStatsPage from './pages/FavoritesStatsPage'
 import HomePage from './pages/HomePage'
@@ -8,19 +9,28 @@ import SeasonStatsPage from './pages/SeasonStatsPage'
 import TracksPage from './pages/TracksPage'
 import './App.css'
 
-const tabs = [
-  { id: 'home', label: '🏠 Home' },
-  { id: 'drivers', label: '👤 Drivers' },
-  { id: 'tracks', label: '🏁 Tracks' },
-  { id: 'journal', label: '📋 Race Journal' },
-  { id: 'favorites', label: '⭐ Favorites' },
-  { id: 'season', label: '🏆 Season' },
-]
-
 function App() {
   const [activeTab, setActiveTab] = useState('home')
   const [newUser, setNewUser] = useState('')
+  const [language, setLanguage] = useState(() => window.localStorage.getItem(I18N_STORAGE_KEY) ?? 'en')
   const journal = useF1Journal()
+  const t = useMemo(() => createTranslator(language), [language])
+
+  const tabs = useMemo(
+    () => [
+      { id: 'home', label: `🏠 ${t('tabHome')}` },
+      { id: 'drivers', label: `👤 ${t('tabDrivers')}` },
+      { id: 'tracks', label: `🏁 ${t('tabTracks')}` },
+      { id: 'journal', label: `📋 ${t('tabJournal')}` },
+      { id: 'favorites', label: `⭐ ${t('tabFavorites')}` },
+      { id: 'season', label: `🏆 ${t('tabSeason')}` },
+    ],
+    [t]
+  )
+
+  useEffect(() => {
+    window.localStorage.setItem(I18N_STORAGE_KEY, language)
+  }, [language])
 
   const handleCreateUser = (event) => {
     event.preventDefault()
@@ -33,6 +43,7 @@ function App() {
       case 'drivers':
         return (
           <DriversPage
+            t={t}
             drivers={journal.drivers}
             driverJournal={journal.driverJournal}
             favoriteSet={journal.favoriteSet}
@@ -43,6 +54,7 @@ function App() {
       case 'tracks':
         return (
           <TracksPage
+            t={t}
             tracks={journal.tracks}
             trackJournal={journal.trackJournal}
             favoriteSet={journal.favoriteSet}
@@ -53,6 +65,7 @@ function App() {
       case 'journal':
         return (
           <RaceJournalPage
+            t={t}
             tracks={journal.tracks}
             drivers={journal.drivers}
             raceJournal={journal.raceJournal}
@@ -64,6 +77,7 @@ function App() {
       case 'favorites':
         return (
           <FavoritesStatsPage
+            t={t}
             favorites={journal.favorites}
             drivers={journal.drivers}
             tracks={journal.tracks}
@@ -72,11 +86,12 @@ function App() {
           />
         )
       case 'season':
-        return <SeasonStatsPage seasonStats={journal.seasonStats} tracks={journal.tracks} teams={journal.teams} />
+        return <SeasonStatsPage t={t} seasonStats={journal.seasonStats} tracks={journal.tracks} teams={journal.teams} />
       case 'home':
       default:
         return (
           <HomePage
+            t={t}
             dashboard={journal.dashboard}
             drivers={journal.drivers}
             tracks={journal.tracks}
@@ -91,13 +106,13 @@ function App() {
     <main className="app-shell">
       <header className="app-header card">
         <div>
-          <p className="app-kicker">Formula 1 Journal</p>
-          <h1>My Motorsport Notebook</h1>
+          <p className="app-kicker">{t('appKicker')}</p>
+          <h1>{t('appTitle')}</h1>
         </div>
 
         <div className="header-controls">
           <label>
-            Active user
+            {t('activeUser')}
             <select
               value={journal.activeUserId ?? ''}
               onChange={(event) => journal.setActiveUserId(event.target.value)}
@@ -110,17 +125,25 @@ function App() {
             </select>
           </label>
 
+          <label>
+            {t('language')}
+            <select value={language} onChange={(event) => setLanguage(event.target.value)}>
+              <option value="en">{t('langEnglish')}</option>
+              <option value="es">{t('langSpanish')}</option>
+            </select>
+          </label>
+
           <form onSubmit={handleCreateUser} className="add-user-form">
             <label>
-              Add user
+              {t('addUser')}
               <input
                 value={newUser}
                 onChange={(event) => setNewUser(event.target.value)}
-                placeholder="New profile"
+                placeholder={t('newProfile')}
               />
             </label>
             <button type="submit" className="primary">
-              Add
+              {t('add')}
             </button>
           </form>
         </div>

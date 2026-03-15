@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { CAR_IMAGES } from '../constants/carImages'
 
-function SeasonStatsPage({ seasonStats, tracks, teams }) {
+function SeasonStatsPage({ t, seasonStats, tracks, teams }) {
   const bestCircuitName = tracks.find((track) => track.id === seasonStats.bestCircuitByRace?.circuitId)?.name
 
   const teamIdByName = useMemo(() => {
@@ -14,32 +14,32 @@ function SeasonStatsPage({ seasonStats, tracks, teams }) {
     <section className="screen-grid">
       <section className="metrics-grid">
         <article className="card metric-card">
-          <p>Driver with most wins</p>
-          <strong>{seasonStats.topWinner ? `${seasonStats.topWinner.driverName} (${seasonStats.topWinner.wins})` : 'No data'}</strong>
+          <p>{t('driverMostWins')}</p>
+          <strong>{seasonStats.topWinner ? `${seasonStats.topWinner.driverName} (${seasonStats.topWinner.wins})` : t('noData')}</strong>
         </article>
         <article className="card metric-card">
-          <p>Driver with most podiums</p>
-          <strong>{seasonStats.topPodium ? `${seasonStats.topPodium.driverName} (${seasonStats.topPodium.podiums})` : 'No data'}</strong>
+          <p>{t('driverMostPodiums')}</p>
+          <strong>{seasonStats.topPodium ? `${seasonStats.topPodium.driverName} (${seasonStats.topPodium.podiums})` : t('noData')}</strong>
         </article>
         <article className="card metric-card">
-          <p>Team with most points</p>
-          <strong>{seasonStats.topTeam ? `${seasonStats.topTeam.teamName} (${seasonStats.topTeam.points})` : 'No data'}</strong>
+          <p>{t('teamMostPoints')}</p>
+          <strong>{seasonStats.topTeam ? `${seasonStats.topTeam.teamName} (${seasonStats.topTeam.points})` : t('noData')}</strong>
         </article>
         <article className="card metric-card">
-          <p>Best race by rating</p>
-          <strong>{seasonStats.bestRace ? `${seasonStats.bestRace.grandPrix} (${seasonStats.bestRace.raceRating}/10)` : 'No data'}</strong>
+          <p>{t('bestRaceByRating')}</p>
+          <strong>{seasonStats.bestRace ? `${seasonStats.bestRace.grandPrix} (${seasonStats.bestRace.raceRating}/10)` : t('noData')}</strong>
         </article>
         <article className="card metric-card">
-          <p>Circuit with best races</p>
+          <p>{t('circuitBestRaces')}</p>
           <strong>
-            {seasonStats.bestCircuitByRace ? `${bestCircuitName ?? seasonStats.bestCircuitByRace.circuitId} (${seasonStats.bestCircuitByRace.average})` : 'No data'}
+            {seasonStats.bestCircuitByRace ? `${bestCircuitName ?? seasonStats.bestCircuitByRace.circuitId} (${seasonStats.bestCircuitByRace.average})` : t('noData')}
           </strong>
         </article>
       </section>
 
       <section className="card">
-        <h2>Season Leaderboard - Drivers</h2>
-        <p>My Championship calculated from your logged races.</p>
+        <h2>{t('seasonLeaderboardDrivers')}</h2>
+        <p>{t('myChampionship')}</p>
         <table className="stats-table">
           <thead>
             <tr>
@@ -70,7 +70,7 @@ function SeasonStatsPage({ seasonStats, tracks, teams }) {
               })
             ) : (
               <tr>
-                <td colSpan={7}>No races logged yet.</td>
+                <td colSpan={7}>{t('noRacesLoggedYet')}</td>
               </tr>
             )}
           </tbody>
@@ -78,8 +78,8 @@ function SeasonStatsPage({ seasonStats, tracks, teams }) {
       </section>
 
       <section className="card">
-        <h2>Constructor Standings</h2>
-        <p>{teams.length} teams in this season database.</p>
+        <h2>{t('constructorStandings')}</h2>
+        <p>{teams.length} {t('teamsInSeasonDb')}</p>
         <table className="stats-table">
           <thead>
             <tr>
@@ -111,7 +111,7 @@ function SeasonStatsPage({ seasonStats, tracks, teams }) {
               })
             ) : (
               <tr>
-                <td colSpan={2}>No team points yet.</td>
+                <td colSpan={2}>{t('noTeamPointsYet')}</td>
               </tr>
             )}
           </tbody>

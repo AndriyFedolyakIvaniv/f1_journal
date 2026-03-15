@@ -69,7 +69,7 @@ const compactTeamName = (team) => {
     .replace('Cadillac Formula 1 Team', 'Cadillac')
 }
 
-function DriversPage({ drivers, driverJournal, favoriteSet, upsertDriverJournal, toggleFavorite }) {
+function DriversPage({ t, drivers, driverJournal, favoriteSet, upsertDriverJournal, toggleFavorite }) {
   const [selectedDriverId, setSelectedDriverId] = useState(drivers[0]?.id ?? '')
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -123,7 +123,7 @@ function DriversPage({ drivers, driverJournal, favoriteSet, upsertDriverJournal,
   return (
     <section className="screen-grid">
       <section className="card">
-        <h2>Drivers Grid</h2>
+        <h2>{t('driversGrid')}</h2>
         <ul className="driver-showcase-grid">
           {drivers.map((driver) => {
             const note = driverJournal.find((item) => item.driverId === driver.id)
@@ -175,34 +175,34 @@ function DriversPage({ drivers, driverJournal, favoriteSet, upsertDriverJournal,
                   {favoriteSet.has(`driver:${selectedDriver.id}`) ? '★' : '☆'}
                 </button>
                 <button type="button" className="ghost" onClick={() => setIsModalOpen(false)}>
-                  Close
+                  {t('close')}
                 </button>
               </div>
             </div>
 
             <form className="editor-form driver-modal-form" onSubmit={handleSave}>
               <label>
-                Team
+                {t('team')}
                 <input value={selectedDriver.team} readOnly />
               </label>
 
               <label>
-                Personal rating (1-5)
+                {t('personalRating')}
                 <input name="rating" type="number" min="0" max="5" value={form.rating} onChange={handleInput} />
               </label>
 
               <label>
-                Best race performance you've seen
+                {t('bestRaceSeen')}
                 <input name="bestRacePerformance" value={form.bestRacePerformance} onChange={handleInput} />
               </label>
 
               <label>
-                Driving style notes
+                {t('drivingStyleNotes')}
                 <textarea name="drivingStyleNotes" rows={3} value={form.drivingStyleNotes} onChange={handleInput} />
               </label>
 
               <label>
-                Season performance notes
+                {t('seasonPerformanceNotes')}
                 <textarea
                   name="seasonPerformanceNotes"
                   rows={3}
@@ -212,12 +212,12 @@ function DriversPage({ drivers, driverJournal, favoriteSet, upsertDriverJournal,
               </label>
 
               <label>
-                Personal comments
+                {t('personalComments')}
                 <textarea name="personalComments" rows={3} value={form.personalComments} onChange={handleInput} />
               </label>
 
               <button type="submit" className="primary">
-                Save driver notes
+                {t('saveDriverNotes')}
               </button>
             </form>
           </div>
