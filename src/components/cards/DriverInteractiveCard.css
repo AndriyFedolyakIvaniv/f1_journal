@@ -6,6 +6,18 @@
   background: linear-gradient(135deg, rgba(11, 18, 38, 0.78), rgba(35, 22, 26, 0.78));
   border: 1px solid rgba(220, 228, 255, 0.2);
   color: #e8ecff;
+  box-shadow: 0 18px 36px rgba(5, 6, 14, 0.26);
+  transform: translateY(0);
+}
+
+.driver-card {
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  animation: driverCardFloat 8s ease-in-out infinite;
+}
+
+.driver-card:hover {
+  border-color: rgba(220, 228, 255, 0.36);
+  box-shadow: 0 24px 48px rgba(5, 6, 14, 0.34);
 }
 
 .driver-card__label {
@@ -48,5 +60,26 @@
 @media (max-width: 620px) {
   .driver-card__meta {
     grid-template-columns: 1fr;
+  }
+}
+
+@keyframes driverCardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .driver-card {
+    animation: none;
+  }
+
+  .driver-card:hover {
+    transform: none;
   }
 }

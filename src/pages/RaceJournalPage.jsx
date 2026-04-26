@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const WEATHER_ICON = { dry: '☀️', rain: '🌧️', mixed: '🌦️' }
 
@@ -69,7 +69,55 @@ function DriverSelect({ name, value, onChange, driverNames, prefix, required, t 
   )
 }
 
-function RaceJournalPage({ t, tracks, drivers, raceJournal, favoriteSet, addRaceEntry, toggleFavorite }) {
+const buildFormFromRace = (entry, tracks) => {
+  const base = initialForm(tracks)
+  if (!entry) return base
+
+  const nextForm = {
+    ...base,
+    grandPrix: entry.grandPrix ?? base.grandPrix,
+    circuitId: entry.circuitId ?? base.circuitId,
+    date: entry.date ?? base.date,
+    format: entry.format ?? base.format,
+    weather: entry.weather ?? base.weather,
+    polePosition: entry.polePosition ?? base.polePosition,
+    fastestLap: entry.fastestLap ?? base.fastestLap,
+    driverOfDay: entry.driverOfDay ?? base.driverOfDay,
+    dnfDrivers: entry.dnfDrivers ?? base.dnfDrivers,
+    safetyCars: entry.safetyCars ?? base.safetyCars,
+    redFlags: entry.redFlags ?? base.redFlags,
+    raceRating: entry.raceRating ?? base.raceRating,
+    sprintRating: entry.sprintRating ?? base.sprintRating,
+    bestOvertake: entry.bestOvertake ?? base.bestOvertake,
+    surprise: entry.surprise ?? base.surprise,
+    disappointment: entry.disappointment ?? base.disappointment,
+    notes: entry.notes ?? base.notes,
+    sprintPoleSitter: entry.sprintPoleSitter ?? base.sprintPoleSitter,
+  }
+
+  for (let position = 1; position <= 22; position += 1) {
+    nextForm[`p${position}Driver`] = entry[`p${position}Driver`] ?? base[`p${position}Driver`]
+  }
+
+  for (let position = 1; position <= 8; position += 1) {
+    nextForm[`sprintP${position}Driver`] = entry[`sprintP${position}Driver`] ?? base[`sprintP${position}Driver`]
+  }
+
+  return nextForm
+}
+
+function RaceJournalPage({
+  t,
+  tracks,
+  drivers,
+  raceJournal,
+  favoriteSet,
+  addRaceEntry,
+  toggleFavorite,
+  raceTemplateSeed,
+  onLoadLatestRaceTemplate,
+  onConsumeRaceTemplate,
+}) {
   const [form, setForm] = useState(initialForm(tracks))
 
   const driverNames = drivers.map((driver) => driver.name)
@@ -85,6 +133,13 @@ function RaceJournalPage({ t, tracks, drivers, raceJournal, favoriteSet, addRace
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
+  useEffect(() => {
+    if (!raceTemplateSeed) return
+
+    setForm(buildFormFromRace(raceTemplateSeed, tracks))
+    onConsumeRaceTemplate()
+  }, [raceTemplateSeed, tracks, onConsumeRaceTemplate])
+
   const handleSubmit = (event) => {
     event.preventDefault()
     addRaceEntry(form)
@@ -93,8 +148,28 @@ function RaceJournalPage({ t, tracks, drivers, raceJournal, favoriteSet, addRace
 
   return (
     <section className="screen-grid">
-      <section className="card">
-        <h2>{t('raceDiaryEntry')}</h2>
+      <section className="card race-builder-card">
+        <div className="card-headline race-builder-headline">
+          <div>
+            <p className="eyebrow">{t('raceHeroKicker')}</p>
+            <h2>{t('raceDiaryEntry')}</h2>
+            <p className="card-subtitle">{t('raceHeroSubtitle')}</p>
+          </div>
+          <button
+            type="button"
+            className="secondary-action"
+            onClick={onLoadLatestRaceTemplate}
+            disabled={!raceJournal.length}
+          >
+            {t('raceUseLastRace')}
+          </button>
+        </div>
+
+        <div className="hero-inline-note">
+          <span>{t('raceTemplateHint')}</span>
+          <strong>{raceJournal[0]?.grandPrix ?? t('raceTemplateEmpty')}</strong>
+        </div>
+
         <form className="race-form" onSubmit={handleSubmit}>
 
           {/* ── GP Info ── */}

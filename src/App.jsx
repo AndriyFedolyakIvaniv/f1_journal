@@ -9,9 +9,45 @@ import SeasonStatsPage from './pages/SeasonStatsPage'
 import TracksPage from './pages/TracksPage'
 import './App.css'
 
+const buildRaceTemplate = (entry) => {
+  if (!entry) return null
+
+  const template = {
+    grandPrix: entry.grandPrix ?? '',
+    circuitId: entry.circuitId ?? '',
+    date: entry.date ?? '',
+    format: entry.format ?? 'standard',
+    weather: entry.weather ?? 'dry',
+    polePosition: entry.polePosition ?? '',
+    fastestLap: entry.fastestLap ?? '',
+    driverOfDay: entry.driverOfDay ?? '',
+    dnfDrivers: entry.dnfDrivers ?? '',
+    safetyCars: Number(entry.safetyCars) || 0,
+    redFlags: Number(entry.redFlags) || 0,
+    raceRating: Number(entry.raceRating) || 7,
+    sprintRating: Number(entry.sprintRating) || 5,
+    bestOvertake: entry.bestOvertake ?? '',
+    surprise: entry.surprise ?? '',
+    disappointment: entry.disappointment ?? '',
+    notes: entry.notes ?? '',
+    sprintPoleSitter: entry.sprintPoleSitter ?? '',
+  }
+
+  for (let position = 1; position <= 22; position += 1) {
+    template[`p${position}Driver`] = entry[`p${position}Driver`] ?? ''
+  }
+
+  for (let position = 1; position <= 8; position += 1) {
+    template[`sprintP${position}Driver`] = entry[`sprintP${position}Driver`] ?? ''
+  }
+
+  return template
+}
+
 function App() {
   const [activeTab, setActiveTab] = useState('home')
   const [newUser, setNewUser] = useState('')
+  const [raceTemplateSeed, setRaceTemplateSeed] = useState(null)
   const [language, setLanguage] = useState(() => window.localStorage.getItem(I18N_STORAGE_KEY) ?? 'en')
   const journal = useF1Journal()
   const t = useMemo(() => createTranslator(language), [language])
@@ -36,6 +72,23 @@ function App() {
     event.preventDefault()
     journal.addUser(newUser)
     setNewUser('')
+  }
+
+  const handleLoadLatestRaceTemplate = () => {
+    const latestRace = journal.raceJournal[0]
+
+    if (!latestRace) {
+      setRaceTemplateSeed(null)
+      setActiveTab('journal')
+      return
+    }
+
+    setRaceTemplateSeed(buildRaceTemplate(latestRace))
+    setActiveTab('journal')
+  }
+
+  const handleConsumeRaceTemplate = () => {
+    setRaceTemplateSeed(null)
   }
 
   const renderScreen = () => {
@@ -72,6 +125,9 @@ function App() {
             favoriteSet={journal.favoriteSet}
             addRaceEntry={journal.addRaceEntry}
             toggleFavorite={journal.toggleFavorite}
+            raceTemplateSeed={raceTemplateSeed}
+            onLoadLatestRaceTemplate={handleLoadLatestRaceTemplate}
+            onConsumeRaceTemplate={handleConsumeRaceTemplate}
           />
         )
       case 'favorites':
@@ -97,6 +153,7 @@ function App() {
             tracks={journal.tracks}
             raceJournal={journal.raceJournal}
             onNavigate={setActiveTab}
+            onLoadLatestRaceTemplate={handleLoadLatestRaceTemplate}
           />
         )
     }
