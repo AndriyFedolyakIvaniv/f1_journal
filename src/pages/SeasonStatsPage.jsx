@@ -40,6 +40,7 @@ function SeasonStatsPage({ t, seasonStats, tracks, teams }) {
       <section className="card">
         <h2>{t('seasonLeaderboardDrivers')}</h2>
         <p>{t('myChampionship')}</p>
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={t('seasonLeaderboardDrivers')}>
         <table className="stats-table">
           <thead>
             <tr>
@@ -75,11 +76,13 @@ function SeasonStatsPage({ t, seasonStats, tracks, teams }) {
             )}
           </tbody>
         </table>
+        </div>
       </section>
 
       <section className="card">
         <h2>{t('constructorStandings')}</h2>
         <p>{teams.length} {t('teamsInSeasonDb')}</p>
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={t('constructorStandings')}>
         <table className="stats-table">
           <thead>
             <tr>
@@ -111,11 +114,12 @@ function SeasonStatsPage({ t, seasonStats, tracks, teams }) {
               })
             ) : (
               <tr>
-                <td colSpan={2}>{t('noTeamPointsYet')}</td>
+                <td colSpan={3}>{t('noTeamPointsYet')}</td>
               </tr>
             )}
           </tbody>
         </table>
+        </div>
       </section>
     </section>
   )

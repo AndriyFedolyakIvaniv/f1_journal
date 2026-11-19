@@ -1350,3 +1350,231 @@ textarea:focus {
   border-color: rgba(89, 220, 255, 0.45);
   box-shadow: 0 0 0 3px rgba(89, 220, 255, 0.08);
 }
+
+/* Shared journal theme */
+:root {
+  color-scheme: dark;
+  --accent: #ff7566;
+  --accent-red: #ff7566;
+  --border: #343438;
+  --text-muted: #b9b7bd;
+}
+body {
+  background: #111113;
+}
+body::before,
+body::after {
+  display: none;
+}
+.app-shell {
+  width: min(1280px, 100%);
+  padding-inline: clamp(14px, 3vw, 36px);
+}
+.app-shell .card {
+  background: #1b1b1e;
+  border-color: var(--border);
+  border-radius: 14px;
+  backdrop-filter: none;
+  box-shadow: none;
+  animation: none;
+  transform: none;
+}
+.app-shell .card::before {
+  display: none;
+}
+.app-shell .app-header {
+  background: transparent;
+  border: 0;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+}
+.app-kicker {
+  color: var(--accent);
+}
+.app-tabs {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  background: #1b1b1e;
+  border-color: var(--border);
+  border-radius: 12px;
+  padding: 5px;
+  gap: 5px;
+}
+.app-tabs button {
+  border-radius: 8px;
+  min-width: 0;
+  padding-inline: 6px;
+}
+.app-tabs .is-active {
+  background: #412724;
+  border-color: #a95046;
+}
+.app-shell input,
+.app-shell select,
+.app-shell textarea,
+.app-shell button:not(.primary, .is-active, .driver-showcase-card) {
+  background: #212124;
+  border-color: var(--border);
+}
+.app-shell .primary {
+  background: #ff7566;
+  color: #1b100f;
+  border-color: transparent;
+  font-weight: 700;
+}
+.app-shell :focus-visible {
+  outline: 2px solid #ff9a8f;
+  outline-offset: 3px;
+}
+.app-shell select {
+  max-width: 100%;
+}
+.app-shell .stack-list li,
+.app-shell .entity-list li,
+.app-shell .favorites-grid article,
+.app-shell .stats-table tbody tr {
+  background: #222225;
+  animation: none;
+}
+.app-shell .entity-list li.is-active {
+  border-color: var(--accent);
+}
+.app-shell .driver-showcase-image {
+  animation: none;
+}
+.app-shell .driver-showcase-card {
+  background: linear-gradient(115deg, #222225 12%, #29292d);
+}
+.app-shell .driver-showcase-card:hover {
+  border-color: var(--accent);
+}
+.journal-cover {
+  isolation: isolate;
+  min-height: 330px;
+  display: grid;
+  align-items: center;
+  padding: clamp(24px, 5vw, 64px);
+}
+.app-shell .journal-cover {
+  background: radial-gradient(ellipse at 85% 80%, #672924, transparent 60%), #201a1b;
+  border-color: #553733;
+}
+.journal-cover-copy {
+  max-width: 58%;
+  z-index: 2;
+}
+.journal-cover h2 {
+  margin: 8px 0 12px;
+  font-size: clamp(2.2rem, 5.8vw, 5rem);
+  line-height: .98;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.cover-lead {
+  color: #e0c9c7;
+  max-width: 42ch;
+  margin: 0 0 22px;
+}
+.journal-cover .journal-cover-car {
+  position: absolute;
+  right: -5%;
+  bottom: 0;
+  width: 61%;
+  height: 82%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 22px #120b0b);
+  pointer-events: none;
+}
+.home-layout .dashboard-metrics {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.journal-composer > summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 700;
+  padding: 6px 0;
+}
+.journal-composer[open] > summary {
+  margin-bottom: 16px;
+}
+.journal-archive-header h2 {
+  margin: 0;
+}
+.journal-archive-header input {
+  width: min(100%, 280px);
+}
+.journal-chapters {
+  gap: 12px;
+  margin-top: 20px;
+}
+.app-shell .journal-chapters .race-entry-card {
+  display: grid;
+  gap: 12px;
+  padding: clamp(14px, 3vw, 24px);
+  border-inline-start: 3px solid var(--accent);
+}
+.journal-chapters .card-headline {
+  flex-direction: row;
+  align-items: flex-start;
+}
+.journal-chapters h3 {
+  margin: 0;
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  overflow-wrap: anywhere;
+}
+.journal-chapters .race-notes {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: 70ch;
+}
+.chapter-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 12px;
+  margin: 0;
+}
+.chapter-highlights dt {
+  color: var(--text-muted);
+  font-size: .85rem;
+}
+.chapter-highlights dd {
+  margin: 3px 0 0;
+  overflow-wrap: anywhere;
+}
+.table-scroll {
+  overflow-x: auto;
+}
+.table-scroll .stats-table {
+  min-width: 480px;
+}
+@media (max-width: 900px) {
+  .home-layout .dashboard-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .app-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .journal-cover {
+    min-height: 0;
+    padding-bottom: 0;
+  }
+  .journal-cover-copy {
+    max-width: none;
+  }
+  .journal-cover .journal-cover-car {
+    position: relative;
+    right: auto;
+    width: 100%;
+    height: auto;
+    max-height: 180px;
+    margin-top: 10px;
+  }
+  .home-layout .dashboard-metrics {
+    grid-template-columns: 1fr;
+  }
+}

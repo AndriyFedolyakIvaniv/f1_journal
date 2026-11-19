@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const WEATHER_ICON = { dry: '☀️', rain: '🌧️', mixed: '🌦️' }
 
@@ -119,6 +119,13 @@ function RaceJournalPage({
   onConsumeRaceTemplate,
 }) {
   const [form, setForm] = useState(initialForm(tracks))
+  const composer = useRef(null)
+  const [query, setQuery] = useState('')
+  const search = query.trim().toLocaleLowerCase()
+  const chapters = raceJournal
+    .filter((entry) => !search || [entry.grandPrix, entry.date, entry.notes]
+      .some((value) => String(value ?? '').toLocaleLowerCase().includes(search)))
+    .sort((first, second) => (second.date || '').localeCompare(first.date || ''))
 
   const driverNames = drivers.map((driver) => driver.name)
   const isSprint = form.format === 'sprint' || form.format === 'experimental'
@@ -136,6 +143,9 @@ function RaceJournalPage({
   useEffect(() => {
     if (!raceTemplateSeed) return
 
+    composer.current.open = true
+    // The template is an explicit request to replace the current draft.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setForm(buildFormFromRace(raceTemplateSeed, tracks))
     onConsumeRaceTemplate()
   }, [raceTemplateSeed, tracks, onConsumeRaceTemplate])
@@ -144,15 +154,17 @@ function RaceJournalPage({
     event.preventDefault()
     addRaceEntry(form)
     setForm(initialForm(tracks))
+    setQuery('')
+    composer.current.open = false
+    composer.current.querySelector('summary').focus()
   }
 
   return (
     <section className="screen-grid">
-      <section className="card race-builder-card">
+      <details className="card race-builder-card journal-composer" ref={composer}>
+        <summary>{t('raceDiaryEntry')}</summary>
         <div className="card-headline race-builder-headline">
           <div>
-            <p className="eyebrow">{t('raceHeroKicker')}</p>
-            <h2>{t('raceDiaryEntry')}</h2>
             <p className="card-subtitle">{t('raceHeroSubtitle')}</p>
           </div>
           <button
@@ -342,30 +354,40 @@ function RaceJournalPage({
             {t('saveRaceEntry')}
           </button>
         </form>
-      </section>
+      </details>
 
-      <section className="card">
-        <h2>{t('latestRaceEntries')}</h2>
+      <section className="card journal-archive">
+        <div className="card-headline journal-archive-header">
+          <h2>{t('latestRaceEntries')}</h2>
+          {raceJournal.length > 0 && (
+            <input type="search" aria-label={t('searchRaces')} placeholder={t('searchRaces')}
+              value={query} onChange={(event) => setQuery(event.target.value)} />
+          )}
+        </div>
         {raceJournal.length === 0 ? (
           <p>{t('noRaceEntries')}</p>
+        ) : chapters.length === 0 ? (
+          <p>{t('noMatchingRaces')}</p>
         ) : (
-          <ul className="stack-list">
-            {raceJournal.slice(0, 10).map((entry) => {
+          <ul className="stack-list journal-chapters">
+            {chapters.map((entry) => {
               const fmt = entry.weekendFormat?.type ?? entry.format ?? 'standard'
+              const favorite = favoriteSet.has(`race:${entry.id}`)
               return (
                 <li key={entry.id} className="race-entry-card">
                   <div className="card-headline">
                     <div className="race-entry-title">
                       <span className="format-chip">{formatLabel[fmt] ?? `🏁 ${t('formatRace')}`}</span>
-                      <strong>{entry.grandPrix}</strong>
+                      <h3>{entry.grandPrix}</h3>
                     </div>
                     <button
                       type="button"
                       className="fav-btn"
                       onClick={() => toggleFavorite('race', entry.id)}
-                      title={favoriteSet.has(`race:${entry.id}`) ? 'Remove from favorites' : 'Add to favorites'}
+                      aria-pressed={favorite}
+                      aria-label={t('tabFavorites')}
                     >
-                      {favoriteSet.has(`race:${entry.id}`) ? '★' : '☆'}
+                      {favorite ? '★' : '☆'}
                     </button>
                   </div>
 
@@ -375,6 +397,14 @@ function RaceJournalPage({
                     <span className="race-rating-chip">{entry.raceRating}/10</span>
                   </div>
 
+                  {entry.notes && <p className="race-notes">{entry.notes}</p>}
+                  {(entry.bestOvertake || entry.surprise || entry.disappointment) && (
+                    <dl className="chapter-highlights">
+                      {entry.bestOvertake && <div><dt>{t('bestOvertake')}</dt><dd>{entry.bestOvertake}</dd></div>}
+                      {entry.surprise && <div><dt>{t('surprise')}</dt><dd>{entry.surprise}</dd></div>}
+                      {entry.disappointment && <div><dt>{t('disappointment')}</dt><dd>{entry.disappointment}</dd></div>}
+                    </dl>
+                  )}
                   <div className="podium-row">
                     <span className="podium-pos gold">P1 {entry.p1Driver || '—'}</span>
                     <span className="podium-pos silver">P2 {entry.p2Driver || '—'}</span>
@@ -396,7 +426,6 @@ function RaceJournalPage({
                     </p>
                   )}
 
-                  {entry.notes && <p className="race-notes">{entry.notes}</p>}
                 </li>
               )
             })}

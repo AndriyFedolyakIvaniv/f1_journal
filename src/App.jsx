@@ -206,12 +206,13 @@ function App() {
         </div>
       </header>
 
-      <nav className="app-tabs">
+      <nav className="app-tabs" aria-label={t('appTitle')}>
         {tabs.map((tab) => (
           <button
             key={tab.id}
             type="button"
             className={tab.id === activeTab ? 'is-active' : ''}
+            aria-current={tab.id === activeTab ? 'page' : undefined}
             onClick={() => setActiveTab(tab.id)}
           >
             {tab.label}
